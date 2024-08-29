@@ -1,3 +1,5 @@
+from Report import Reporte
+
 class CompetenciaLiga:
     def __init__(self, robots):
         self.robots = robots
@@ -26,6 +28,10 @@ class CompetenciaLiga:
         self.resultados[ganador.nombre]['victorias'] += 1
         self.resultados[perdedor.nombre]['derrotas'] += 1
         print(f"{ganador.nombre} gana la batalla.")
+        
+        # Generar gráfico para esta batalla
+        reporte = Reporte(self)
+        reporte.generar_grafico_usos_ataques(robot1, robot2)
 
     def realizar_competencia(self):
         for i in range(len(self.robots)):

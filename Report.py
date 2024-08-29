@@ -4,8 +4,8 @@ class Reporte:
     def __init__(self, competencia):
         self.competencia = competencia
 
-    def generar_grafico_usos_ataques(self):
-        for robot in self.competencia.robots:
+    def generar_grafico_usos_ataques(self, robot1, robot2):
+        for robot in [robot1, robot2]:
             usos = self.competencia.resultados[robot.nombre]['usos_ataques']
             ataques = list(usos.keys())
             cantidades = list(usos.values())
@@ -15,7 +15,7 @@ class Reporte:
                 plt.bar(ataques, cantidades, color='skyblue')
                 plt.xlabel('Ataques')
                 plt.ylabel('Cantidad de usos')
-                plt.title(f'Cantidad de usos de cada ataque - {robot.nombre}')
+                plt.title(f'Cantidad de usos de cada ataque - Batalla entre {robot1.nombre} y {robot2.nombre} - {robot.nombre}')
                 plt.xticks(rotation=45)
                 plt.tight_layout()  # Ajusta el layout para evitar que los nombres de los ataques se solapen
                 plt.show()

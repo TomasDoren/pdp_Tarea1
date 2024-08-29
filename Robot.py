@@ -1,13 +1,14 @@
 import random
 
 class Ataque:
-    def __init__(self, nombre, tipo, objetivo, daño, precisión, recarga):
-        self.nombre = nombre
-        self.tipo = tipo
-        self.objetivo = objetivo
-        self.daño = daño
-        self.precisión = precisión
-        self.recarga = recarga
+    def __init__(self, name, type, objective, damage, precision, recharge):
+        self.nombre = name
+        self.tipo = type
+        self.objetivo = objective
+        self.daño = damage
+        self.precisión = precision
+        self.recarga = recharge
+
 
 class Robot:
     def __init__(self, nombre, energia, ataques):

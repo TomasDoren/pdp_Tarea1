@@ -1,26 +1,53 @@
 from Robot import Robot, Ataque
 from Competition import CompetenciaLiga
 from Report import Reporte
+import json
 
 def main():
-    # Definición de ataques
-    ataque1 = Ataque("Arco", "long", "robot", 20, 80, 1)
-    ataque2 = Ataque("Espada", "sword", "robot", 25, 90, 2)
-    ataque3 = Ataque("Puñetazo", "hand", "robot", 15, 95, 0)
+    # Ruta del archivo JSON
+    file_path = 'C:\\Users\\Tomas Doren\\Desktop\\Proyectos VSC\\Paradigmas\\Tarea_1_TD\\robots01.json'
 
-    # Definición de robots
-    robot1 = Robot("Robot1", 100, [ataque1, ataque2])
-    robot2 = Robot("Robot2", 120, [ataque2, ataque3])
-    robot3 = Robot("Robot3", 110, [ataque1, ataque3])
 
-    # Crear y ejecutar la competencia
-    competencia = CompetenciaLiga([robot1, robot2, robot3])
+    # Leer el archivo JSON y extraer los robots
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        print(f"El archivo {file_path} no fue encontrado.")
+        return
+    except json.JSONDecodeError:
+        print(f"Error al decodificar el archivo JSON {file_path}.")
+        return
+
+    # Extraer los robots del archivo JSON
+    robots_data = data.get('robots', [])
+
+    # Crear instancias de Robot
+    robots = []
+    for robot_data in robots_data:
+        # Crear instancias de Ataque desde los datos JSON
+        ataques = [Ataque(**attack) for attack in robot_data.get('attacks', [])]
+        
+        # Crear la instancia de Robot con los ataques y habilidades
+        robot = Robot(
+            nombre=robot_data.get('name'),
+            energia=robot_data.get('energy'),
+            ataques=ataques,
+        )
+        robots.append(robot)
+
+    # Verificar que haya al menos un robot para la competencia
+    if not robots:
+        print("No hay robots disponibles para la competencia.")
+        return
+
+    # Crear y ejecutar la competencia con todos los robots
+    competencia = CompetenciaLiga(robots)
     competencia.realizar_competencia()
-    competencia.generar_reporte()
 
     # Generar reportes
-    reporte = Reporte(competencia)
-    reporte.generar_grafico_usos_ataques()
+    competencia.generar_reporte()
+    
 
 if __name__ == "__main__":
     main()
